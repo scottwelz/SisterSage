@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -27,7 +28,7 @@ export default function InventoryCard({ product, onStockUpdate }: InventoryCardP
   const totalStock = product.stock.shopify + product.stock.square;
 
   return (
-    <Card className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <Card className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-accent">
       <CardHeader className="p-3">
         <CardTitle className="truncate text-base font-semibold font-headline">{product.name}</CardTitle>
         <CardDescription>SKU: {product.sku}</CardDescription>
@@ -68,7 +69,7 @@ export default function InventoryCard({ product, onStockUpdate }: InventoryCardP
       </CardContent>
       <CardFooter className="bg-muted/50 p-3">
         <ManualAdjustDialog product={product} onStockUpdate={onStockUpdate}>
-          <Button variant="outline" size="sm" className="w-full">
+          <Button variant="accent" size="sm" className="w-full">
             <Pencil className="mr-2 h-4 w-4" />
             Adjust Stock
           </Button>

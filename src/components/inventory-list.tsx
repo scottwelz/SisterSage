@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -78,7 +79,7 @@ function InventoryListView({ products, onStockUpdate }: { products: Product[]; o
               <TableCell className="text-right font-medium">{product.stock.shopify + product.stock.square}</TableCell>
               <TableCell className="text-right">
                 <ManualAdjustDialog product={product} onStockUpdate={onStockUpdate}>
-                  <Button variant="outline" size="sm">
+                  <Button variant="accent" size="sm">
                     <Pencil className="mr-2 h-4 w-4" />
                     Adjust
                   </Button>
