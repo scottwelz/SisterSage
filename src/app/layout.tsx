@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Stock Pilot',
+  title: 'Sister Sage Herbs',
   description: 'Inventory tracking for Shopify and Square',
 };
 
