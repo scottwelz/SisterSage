@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Single-tenant app: All authenticated users have full access
+    
+    // Products collection
+    match /products/{productId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Product mappings (AI matching system)
+    match /product_mappings/{mappingId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Match suggestions (AI-generated)
+    match /match_suggestions/{suggestionId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Match training data (AI learning)
+    match /match_training/{trainingId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Sync logs (inventory sync history)
+    match /sync_logs/{logId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Locations (inventory locations)
+    match /locations/{locationId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null; // TODO: Add admin role check
+    }
+    
+    // Inventory transactions (audit trail)
+    match /inventory_transactions/{transactionId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if false; // Transactions are immutable
+    }
+    
+    // Product bundles (multi-pack definitions)
+    match /product_bundles/{bundleId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Deny access to any other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

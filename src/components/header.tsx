@@ -1,8 +1,8 @@
 "use client";
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Leaf, Settings, LogOut } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+import { Leaf, LogOut, Package, ShoppingCart, MapPin, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -15,11 +15,13 @@ import {
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/context/auth-context';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { cn } from '@/lib/utils';
 
 export default function Header() {
   const { user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -31,12 +33,46 @@ export default function Header() {
     return email.substring(0, 2).toUpperCase();
   }
 
+  const navItems = [
+    { href: '/dashboard', label: 'Inventory', icon: Package },
+    { href: '/catalog', label: 'Catalog', icon: ShoppingCart },
+    { href: '/locations', label: 'Locations', icon: MapPin },
+    { href: '/transactions', label: 'History', icon: History },
+  ];
+
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6">
       <div className="flex items-center gap-2">
         <Leaf className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-bold tracking-tight">Sister Sage Herbs</h1>
+        <Link href="/" passHref>
+          <h1 className="text-2xl font-bold tracking-tight">Sister Sage Herbs</h1>
+        </Link>
       </div>
+
+      {user && (
+        <nav className="hidden md:flex items-center gap-2 ml-8">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+            return (
+              <Link key={item.href} href={item.href}>
+                <Button
+                  variant={isActive ? 'default' : 'ghost'}
+                  size="sm"
+                  className={cn(
+                    'gap-2',
+                    !isActive && 'text-muted-foreground'
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Button>
+              </Link>
+            );
+          })}
+        </nav>
+      )}
+
       <div className="ml-auto">
         {user && (
           <DropdownMenu>
@@ -57,12 +93,20 @@ export default function Header() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href="/settings" passHref>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </DropdownMenuItem>
-              </Link>
+              <div className="md:hidden">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <DropdownMenuItem key={item.href} asChild>
+                      <Link href={item.href} className="cursor-pointer">
+                        <Icon className="mr-2 h-4 w-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
+                <DropdownMenuSeparator />
+              </div>
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
