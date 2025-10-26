@@ -43,3 +43,5 @@ next-env.d.ts
 # firebase
 firebase-debug.log
 firestore-debug.logstock-pilot-aup48-firebase-adminsdk-fbsvc-5d9bbdf652.json
+
+*.json

@@ -1,7 +1,24 @@
+# Specifies the version of the App Hosting yaml format
+version: 1
+
+# Specifies the build and server settings for your app
+run:
+  # This will be automatically set by the CLI
+  build: npm run build
+
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
-
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
+
+# Defines the environment variables for your app
+env:
+  # This section is for "public" variables
+  # e.g., VARIABLE_NAME: 'value'
+
+# This is the new section you need to add
+secretEnvironmentVariables:
+  - key: GOOGLE_APPLICATION_CREDENTIALS  # The env var name your app will use
+    secret: FIREBASE_ADMIN_KEY           # The secret name from Secret Manager
