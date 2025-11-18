@@ -9,14 +9,6 @@
     "rules": "storage.rules"
   },
   "apphosting": {
-    "backendId": "sister-sage-backend",
-    "rootDir": "/",
-    "ignore": [
-      "node_modules",
-      ".git",
-      "firebase-debug.log",
-      "firebase-debug.*.log",
-      "functions"
-    ]
+    "backendId": "sister-sage-backend"
   }
 }
